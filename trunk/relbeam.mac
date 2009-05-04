@@ -52,5 +52,5 @@ cp,next,rotx,j,newnode
 *endif
 
 csys,0
-nrotat,all
+!nrotat,all
 ele=$i=$j=$nmax=$newnode=
