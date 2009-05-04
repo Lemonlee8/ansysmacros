@@ -1,0 +1,17 @@
+!=======================================
+!功能：批量释放单元端部
+!使用格式：redata,num,Filename,EXT
+!					num：输入文件中的单元数；
+!					Filename：输入文件名；
+!					EXT：输入文件后缀
+!=======================================
+/com,APDL by Ben 2009-02
+/com,[www.lubanren.com]
+eles=arg1
+*dim,v_data,,eles,1
+*vread,v_data(1),arg2,arg3,,ijk,eles
+(1F6.0)
+
+*do,i,1,eles
+*use,relbeam.mac,v_data(i),1,1
+*enddo
