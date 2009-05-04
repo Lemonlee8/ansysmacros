@@ -1,0 +1,56 @@
+!=======================================
+!功能：对单个Beam单元进行端部铰接释放
+!使用格式：release,ENUM,i,j
+!						ENUM:单元号；
+!						i:0或1，等于1表示释放I端；
+!						j:0或1，等于1表示释放J端
+!=======================================
+/com,APDL by Ben 2009-02
+/com,[www.lubanren.com]
+/prep7
+ele=arg1
+i=nelem(ele,1)
+j=nelem(ele,2)
+k=nelem(ele,3)
+*if,k,eq,0,then
+k=1
+*endif
+
+!定义单元局部坐标系为局部坐标
+cs,11,0,i,j,k
+
+!如果要释放I端
+*if,arg2,eq,1,then
+*if,enextn(i,2),gt,0,then
+*get,nmax,node,,num,maxd
+newnode=nmax+1
+n,newnode,nx(i),ny(i),nz(i)
+emodif,ele,-1,newnode
+nrotat,i
+nrotat,newnode
+cp,next,ux,i,newnode
+cp,next,uy,i,newnode
+cp,next,uz,i,newnode
+cp,next,rotx,i,newnode
+*endif
+*endif
+
+!如果要释放J端
+*if,arg3,eq,1,then
+*if,enextn(j,2),gt,0,then
+*get,nmax,node,,num,maxd
+newnode=nmax+1
+n,newnode,nx(j),ny(j),nz(j)
+emodif,ele,-2,newnode
+nrotat,j
+nrotat,newnode
+cp,next,ux,j,newnode
+cp,next,uy,j,newnode
+cp,next,uz,j,newnode
+cp,next,rotx,j,newnode
+*endif
+*endif
+
+csys,0
+nrotat,all
+ele=$i=$j=$nmax=$newnode=
